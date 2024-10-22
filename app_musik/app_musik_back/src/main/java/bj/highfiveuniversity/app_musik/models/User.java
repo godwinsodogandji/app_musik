@@ -17,7 +17,7 @@ import lombok.NoArgsConstructor;
 @Data
 @Builder
 @Entity
-@Table(name = "musik")
+@Table(name = "user")
 @NoArgsConstructor
 @AllArgsConstructor
 public class User {
