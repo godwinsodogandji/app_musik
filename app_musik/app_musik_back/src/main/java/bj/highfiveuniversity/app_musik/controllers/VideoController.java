@@ -44,4 +44,10 @@ public class VideoController {
         videoService.deleteById(id);
         return ResponseEntity.noContent().build();
     }
+
+     @PostMapping("/generate-videos")
+    public String generateVideos(@RequestParam int count) {
+        videoService.generateFakeVideos(count);
+        return count + " vidéos fictives générées.";
+    }
 }
