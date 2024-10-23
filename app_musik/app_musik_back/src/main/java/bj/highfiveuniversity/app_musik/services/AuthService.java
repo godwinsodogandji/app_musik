@@ -24,10 +24,15 @@ public class AuthService {
     private PasswordEncoder passwordEncoder;
 
     public ResponseEntity<?> register(User user) {
+        // Vérifiez si l'utilisateur existe déjà
+        if (userRepository.findByUsername(user.getUsername()).isPresent()) {
+            return ResponseEntity.status(400).body("Username already exists");
+        }
+    
         // Hachage du mot de passe avant de le stocker
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         userRepository.save(user);
-        return ResponseEntity.ok("User registered successfully!");
+        return ResponseEntity.ok("User  registered successfully!");
     }
 
     public ResponseEntity<?> login(User user) {

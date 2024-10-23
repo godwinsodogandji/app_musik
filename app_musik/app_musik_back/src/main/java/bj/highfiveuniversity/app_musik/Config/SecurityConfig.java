@@ -19,11 +19,14 @@ public class SecurityConfig {
     @Autowired
     private UserDetailsService userDetailsService;
 
+    @SuppressWarnings("removal")
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http.csrf(csrf -> csrf.disable())
+            .cors() // Active CORS
+            .and()
             .authorizeHttpRequests(authorize -> authorize
-                .requestMatchers("/api/auth/login").permitAll()
+                .requestMatchers("/api/auth/login",  "/api/auth/register").permitAll()
                 .anyRequest().authenticated()
             );
         return http.build();
@@ -40,6 +43,4 @@ public class SecurityConfig {
         builder.userDetailsService(userDetailsService).passwordEncoder(passwordEncoder());
         return builder.build();
     }
-
-
 }
