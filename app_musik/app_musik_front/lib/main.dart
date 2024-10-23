@@ -29,16 +29,16 @@ class LoginPage extends StatefulWidget {
 
 class _LoginPageState extends State<LoginPage> {
   final _formKey = GlobalKey<FormState>();
-  final TextEditingController _emailController = TextEditingController();
+  final TextEditingController _usernameController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
 
   void _login() {
     if (_formKey.currentState!.validate()) {
       // Logique de connexion ici
-      String email = _emailController.text;
+      String username = _usernameController.text;
       String password = _passwordController.text;
-      print("Email: $email, Password: $password");
-      // Tu peux ajouter l'authentification ici
+      print("Username: $username, Password: $password");
+      // Ajouter l'authentification ici
     }
   }
 
@@ -56,17 +56,15 @@ class _LoginPageState extends State<LoginPage> {
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
               TextFormField(
-                controller: _emailController,
+                controller: _usernameController,
                 decoration: const InputDecoration(
-                  labelText: 'Email',
+                  labelText: 'Username',
                   border: OutlineInputBorder(),
                 ),
-                keyboardType: TextInputType.emailAddress,
+                keyboardType: TextInputType.text, // Correction ici
                 validator: (value) {
                   if (value == null || value.isEmpty) {
-                    return 'Veuillez entrer votre email';
-                  } else if (!RegExp(r'^[\w-\.]+@([\w-]+\.)+[\w]{2,4}$').hasMatch(value)) {
-                    return 'Veuillez entrer un email valide';
+                    return 'Veuillez entrer votre nom d\'utilisateur';
                   }
                   return null;
                 },
