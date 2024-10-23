@@ -130,7 +130,7 @@ class _LoginPageState extends State<LoginPage> {
                           controller: _passwordController,
                           decoration:
                               const InputDecoration(labelText: 'Password',  prefixIcon: Icon(Icons.lock, color: Colors.grey),
-                          border: OutlineInputBorder(),),
+                        ),
                           obscureText: true,
                           validator: (value) {
                             if (value == null || value.isEmpty) {
