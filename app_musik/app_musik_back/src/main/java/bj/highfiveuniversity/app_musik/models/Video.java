@@ -32,7 +32,7 @@ public class Video {
     private String genre;
 
     @Column(nullable = false)
-    private String duration;
+    private int duration;
 
     @Column(nullable = false)
     private String file;

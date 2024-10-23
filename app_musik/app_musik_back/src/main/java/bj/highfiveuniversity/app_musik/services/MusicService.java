@@ -1,16 +1,22 @@
 package bj.highfiveuniversity.app_musik.services;
 
 import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.github.javafaker.Faker;
+
 import bj.highfiveuniversity.app_musik.models.Music;
 import bj.highfiveuniversity.app_musik.repositories.MusicRepository;
+import jakarta.transaction.Transactional;
 
 @Service
 public class MusicService {
     @Autowired
     private MusicRepository musicRepository;
+
+    private final Faker faker = new Faker();
 
     public List<Music> findAll() {
         return musicRepository.findAll();
@@ -44,6 +50,19 @@ public class MusicService {
         musicRepository.deleteById(id);
     }
 
+    @Transactional
+    public void generateFakeMusicData(int count) {
+        for (int i = 0; i < count; i++) {
+            Music music = Music.builder()
+                .title(faker.lorem().sentence(3)) 
+                .artist(faker.book().author())
+                .album(faker.lorem().word() + " Album") 
+                .genre(faker.music().genre())
+                .duration(faker.number().numberBetween(180, 300)) // Durée en secondes
+                .file(faker.file().fileName())
+                .build();
     
-    
+            musicRepository.save(music);
+        }
+    }
 }
