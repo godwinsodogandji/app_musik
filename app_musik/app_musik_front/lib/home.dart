@@ -9,7 +9,7 @@ class Home extends StatelessWidget {
   Future<void> _logout(BuildContext context) async {
     // Instance de stockage partagé
     final SharedPreferences prefs = await SharedPreferences.getInstance();
-    
+
     // Supprimer le token
     await prefs.remove('auth_token');
 
@@ -34,7 +34,8 @@ class Home extends StatelessWidget {
         actions: [
           IconButton(
             icon: const Icon(Icons.logout),
-            onPressed: () => _logout(context), // Appel à la méthode de déconnexion
+            onPressed: () =>
+                _logout(context), // Appel à la méthode de déconnexion
           ),
         ],
       ),
@@ -63,7 +64,7 @@ class Home extends StatelessWidget {
                   ),
                 ],
               ),
-              const SizedBox(height: 16),
+              const SizedBox(height: 1),
 
               // Recommend Section
               const SectionTitle(title: 'Artist'),
@@ -71,25 +72,40 @@ class Home extends StatelessWidget {
                 crossAxisCount: 3,
                 shrinkWrap: true,
                 physics: const NeverScrollableScrollPhysics(),
-                children: const [
-                  MusicGridItem(
-                    imageUrl: 'assets/i3.webp',
-                    title: 'Gims',
-                    subtitle: '23 songs',
+                children: [
+                  GestureDetector(
+                    onTap: () {
+                      Navigator.pushNamed(context, '/music');
+                    },
+                    child: const MusicGridItem(
+                      imageUrl: 'assets/i3.webp',
+                      title: 'Gims',
+                      subtitle: '23 songs',
+                    ),
                   ),
-                  MusicGridItem(
-                    imageUrl: 'assets/i4.webp',
-                    title: 'Davido',
-                    subtitle: '25 songs',
+                  GestureDetector(
+                    onTap: () {
+                      Navigator.pushNamed(context, '/music');
+                    },
+                    child: const MusicGridItem(
+                      imageUrl: 'assets/i4.webp',
+                      title: 'Davido',
+                      subtitle: '25 songs',
+                    ),
                   ),
-                  MusicGridItem(
-                    imageUrl: 'assets/i5.jpg',
-                    title: 'Zaho',
-                    subtitle: '12 songs',
+                  GestureDetector(
+                    onTap: () {
+                      Navigator.pushNamed(context, '/music');
+                    },
+                    child: const MusicGridItem(
+                      imageUrl: 'assets/i5.jpg',
+                      title: 'Zaho',
+                      subtitle: '12 songs',
+                    ),
                   ),
                 ],
               ),
-              const SizedBox(height: 16),
+              const SizedBox(height: 1),
 
               // Album Section
               const SectionTitle(title: 'Genre'),
@@ -97,18 +113,33 @@ class Home extends StatelessWidget {
                 crossAxisCount: 3,
                 shrinkWrap: true,
                 physics: const NeverScrollableScrollPhysics(),
-                children: const [
-                  MusicGridItem(
-                    imageUrl: 'assets/i6.webp',
-                    title: 'Hip-hop',
+                children: [
+                  GestureDetector(
+                    onTap: () {
+                      Navigator.pushNamed(context, '/music');
+                    },
+                    child: const MusicGridItem(
+                      imageUrl: 'assets/i6.webp',
+                      title: 'Hip-hop',
+                    ),
                   ),
-                  MusicGridItem(
-                    imageUrl: 'assets/i7.webp',
-                    title: 'Jazz',
+                  GestureDetector(
+                    onTap: () {
+                      Navigator.pushNamed(context, '/music');
+                    },
+                    child: const MusicGridItem(
+                      imageUrl: 'assets/i7.webp',
+                      title: 'Jazz',
+                    ),
                   ),
-                  MusicGridItem(
-                    imageUrl: 'assets/i8.webp',
-                    title: 'Classical',
+                  GestureDetector(
+                    onTap: () {
+                      Navigator.pushNamed(context, '/music');
+                    },
+                    child: const MusicGridItem(
+                      imageUrl: 'assets/i8.webp',
+                      title: 'Classical',
+                    ),
                   ),
                 ],
               ),
@@ -128,10 +159,11 @@ class SectionTitle extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.only(top: 20.0, bottom: 8.0),
+      padding: const EdgeInsets.only(top: 1.0, bottom: 8.0),
       child: Text(
         title,
-        style: const TextStyle(fontSize: 18.0, fontWeight: FontWeight.bold, color: Colors.white),
+        style: const TextStyle(
+            fontSize: 18.0, fontWeight: FontWeight.bold, color: Colors.white),
       ),
     );
   }
@@ -142,17 +174,28 @@ class MusicItem extends StatelessWidget {
   final String title;
   final String artist;
 
-  const MusicItem({super.key, required this.imageUrl, required this.title, required this.artist});
+  const MusicItem(
+      {super.key,
+      required this.imageUrl,
+      required this.title,
+      required this.artist});
 
   @override
   Widget build(BuildContext context) {
     return Expanded(
       child: Column(
         children: [
-          Image.network(imageUrl, width: 150, height: 100, fit: BoxFit.cover,),
-          const SizedBox(height: 4),
-          Text(title, style: const TextStyle(fontSize: 14.0, color: Colors.white)),
-          Text(artist, style: TextStyle(fontSize: 12.0, color: Colors.grey[400])),
+          Image.network(
+            imageUrl,
+            width: 750,
+            height: 500,
+            fit: BoxFit.cover,
+          ),
+          const SizedBox(height: 1),
+          Text(title,
+              style: const TextStyle(fontSize: 14.0, color: Colors.white)),
+          Text(artist,
+              style: TextStyle(fontSize: 12.0, color: Colors.grey[400])),
         ],
       ),
     );
@@ -164,18 +207,21 @@ class MusicGridItem extends StatelessWidget {
   final String title;
   final String? subtitle;
 
-  const MusicGridItem({super.key, required this.imageUrl, required this.title, this.subtitle});
+  const MusicGridItem(
+      {super.key, required this.imageUrl, required this.title, this.subtitle});
 
   @override
   Widget build(BuildContext context) {
     return Column(
       children: [
-        Image.network(imageUrl, width: 100, height: 100, fit: BoxFit.cover),
-        const SizedBox(height: 4),
-        Text(title, style: const TextStyle(fontSize: 14.0, color: Colors.white)),
+        Image.network(imageUrl, width: 500, height: 250, fit: BoxFit.cover),
+        const SizedBox(height: 1),
+        Text(title,
+            style: const TextStyle(fontSize: 14.0, color: Colors.white)),
         if (subtitle != null) ...[
-          const SizedBox(height: 4),
-          Text(subtitle!, style: TextStyle(fontSize: 12.0, color: Colors.grey[400])),
+          const SizedBox(height: 1),
+          Text(subtitle!,
+              style: TextStyle(fontSize: 12.0, color: Colors.grey[400])),
         ],
       ],
     );
