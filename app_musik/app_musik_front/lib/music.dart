@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+// ignore: depend_on_referenced_packages
 
 class MusicPage extends StatelessWidget {
   const MusicPage({super.key});
@@ -35,7 +36,7 @@ class AlbumScreen extends StatelessWidget {
                   height: 200,
                   fit: BoxFit.cover,
                 ),
-                Positioned(
+                const Positioned(
                   bottom: 16,
                   left: 16,
                   child: Column(
@@ -55,7 +56,7 @@ class AlbumScreen extends StatelessWidget {
             Container(
               color: const Color(0xFF2A2A3E),
               padding: const EdgeInsets.symmetric(vertical: 16),
-              child: Row(
+              child: const Row(
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
                 children: [
                   StatsItem(icon: FontAwesomeIcons.heart, count: '1,207'),
@@ -67,8 +68,8 @@ class AlbumScreen extends StatelessWidget {
             ),
 
             // Play all section
-            Padding(
-              padding: const EdgeInsets.all(16.0),
+            const Padding(
+              padding: EdgeInsets.all(16.0),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children:  [
@@ -95,7 +96,7 @@ class StatsItem extends StatelessWidget {
   final IconData icon;
   final String count;
 
-  const StatsItem({required this.icon, required this.count});
+  const StatsItem({super.key, required this.icon, required this.count});
 
   @override
   Widget build(BuildContext context) {
@@ -103,7 +104,7 @@ class StatsItem extends StatelessWidget {
       children: [
         Icon(icon, color: Colors.white, size: 24),
         const SizedBox(height: 4),
-        Text(count, style: TextStyle(color: Colors.white, fontSize: 12)),
+        Text(count, style: const TextStyle(color: Colors.white, fontSize: 12)),
       ],
     );
   }
@@ -113,7 +114,7 @@ class PlaylistItem extends StatelessWidget {
   final String title;
   final String artist;
 
-  const PlaylistItem({required this.title, required this.artist});
+  const PlaylistItem({super.key, required this.title, required this.artist});
 
   @override
   Widget build(BuildContext context) {
@@ -125,11 +126,11 @@ class PlaylistItem extends StatelessWidget {
           Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text(title, style: TextStyle(color: Colors.white, fontSize: 14)),
+              Text(title, style: const TextStyle(color: Colors.white, fontSize: 14)),
               Text(artist, style: TextStyle(color: Colors.grey[400], fontSize: 12)),
             ],
           ),
-          Icon(FontAwesomeIcons.play, color: Colors.white),
+          const Icon(FontAwesomeIcons.play, color: Colors.white),
         ],
       ),
     );

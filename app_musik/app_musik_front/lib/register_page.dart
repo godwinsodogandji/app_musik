@@ -20,7 +20,7 @@ class _RegisterPageState extends State<RegisterPage> {
   void _register() async {
     if (_formKey.currentState!.validate()) {
       setState(() {
-        _isLoading = false;
+        _isLoading = true; // Commencez le chargement
       });
 
       try {
@@ -36,10 +36,6 @@ class _RegisterPageState extends State<RegisterPage> {
           }),
         );
 
-        setState(() {
-          _isLoading = true;
-        });
-
         if (response.statusCode == 200 || response.statusCode == 201) {
           // Enregistrement réussi, redirection vers la page de login
           Navigator.pushReplacement(
@@ -48,14 +44,14 @@ class _RegisterPageState extends State<RegisterPage> {
           );
         } else {
           final errorData = jsonDecode(response.body);
-          print(
-              'Registration failed: ${response.reasonPhrase}, Details: ${errorData['message']}');
+          print('Registration failed: ${response.reasonPhrase}, Details: ${errorData['message']}');
         }
       } catch (e) {
-        setState(() {
-          _isLoading = false;
-        });
         print('Error: $e');
+      } finally {
+        setState(() {
+          _isLoading = false; // Arrêtez le chargement
+        });
       }
     }
   }
@@ -113,8 +109,9 @@ class _RegisterPageState extends State<RegisterPage> {
                         width: 300,
                         child: TextFormField(
                           controller: _usernameController,
-                          decoration:
-                              const InputDecoration(labelText: 'Username', prefixIcon: Icon(Icons.person,color: Colors.grey)),
+                          decoration: const InputDecoration(
+                              labelText: 'Username',
+                              prefixIcon: Icon(Icons.person, color: Colors.grey)),
                           validator: (value) {
                             if (value == null || value.isEmpty) {
                               return 'Please enter your username';
@@ -128,7 +125,9 @@ class _RegisterPageState extends State<RegisterPage> {
                         width: 300,
                         child: TextFormField(
                           controller: _emailController,
-                          decoration: const InputDecoration(labelText: 'Email',  prefixIcon: Icon(Icons.email,color: Colors.grey)),
+                          decoration: const InputDecoration(
+                              labelText: 'Email',
+                              prefixIcon: Icon(Icons.email, color: Colors.grey)),
                           validator: (value) {
                             if (value == null || value.isEmpty) {
                               return 'Please enter your email';
@@ -142,8 +141,9 @@ class _RegisterPageState extends State<RegisterPage> {
                         width: 300,
                         child: TextFormField(
                           controller: _passwordController,
-                          decoration:
-                              const InputDecoration(labelText: 'Password',  prefixIcon: Icon(Icons.lock,color: Colors.grey)),
+                          decoration: const InputDecoration(
+                              labelText: 'Password',
+                              prefixIcon: Icon(Icons.lock, color: Colors.grey)),
                           obscureText: true,
                           validator: (value) {
                             if (value == null || value.isEmpty) {

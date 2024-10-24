@@ -15,10 +15,12 @@ public class WebConfig implements WebMvcConfigurer {
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         CorsConfiguration config = new CorsConfiguration();
         config.setAllowCredentials(true);
-        config.addAllowedOrigin("*"); // Remplacez par l'URL de votre frontend
-        config.addAllowedHeader("*");
-        config.addAllowedMethod("*");
+        config.addAllowedOriginPattern("http://localhost:51740"); // Permet toutes les origines
+        config.addAllowedHeader("*"); // Permet tous les headers
+        config.addAllowedMethod("*"); // Permet toutes les méthodes (GET, POST, etc.)
         source.registerCorsConfiguration("/**", config);
         return source;
     }
 }
+
+

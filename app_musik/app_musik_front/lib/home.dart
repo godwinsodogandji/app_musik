@@ -9,7 +9,7 @@ class Home extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('App Music'),
+        title: const Text('App Music'),
         backgroundColor: Colors.transparent,
       
       ),
@@ -22,8 +22,8 @@ class Home extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               // MV Section
-              SectionTitle(title: 'Albums'),
-              Row(
+              const SectionTitle(title: 'Albums'),
+              const Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   MusicItem(
@@ -46,7 +46,7 @@ class Home extends StatelessWidget {
                 crossAxisCount: 3,
                 shrinkWrap: true,
                 physics: const NeverScrollableScrollPhysics(),
-                children: [
+                children: const [
                   MusicGridItem(
                     imageUrl: 'assets/i3.webp',
                     title: 'Gims',
@@ -72,7 +72,7 @@ class Home extends StatelessWidget {
                 crossAxisCount: 3,
                 shrinkWrap: true,
                 physics: const NeverScrollableScrollPhysics(),
-                children: [
+                children: const [
                   MusicGridItem(
                     imageUrl: 'assets/i6.webp',
                     title: 'Hip-hop',
