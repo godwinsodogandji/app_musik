@@ -1,6 +1,8 @@
 import 'dart:convert';
+import 'package:app_musik_front/home.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import 'package:shared_preferences/shared_preferences.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
@@ -40,9 +42,24 @@ class _LoginPageState extends State<LoginPage> {
         if (response.statusCode == 200) {
           final responseData = jsonDecode(response.body);
           print('Login successful: ${responseData['token']}');
+
+          // Stocker le token
+          final prefs = await SharedPreferences.getInstance();
+          await prefs.setString('token', responseData['token']);
+          print( prefs.getString('token'));
+
+
+
           // Vider les champs après une connexion réussie
           _usernameController.clear();
           _passwordController.clear();
+
+          // Redirection vers la page d'accueil
+          Navigator.of(context).pushReplacement(
+            MaterialPageRoute(
+                builder: (context) =>
+                    Home()), // Remplacez HomePage par le nom de votre page d'accueil
+          );
         } else {
           final errorData = jsonDecode(response.body);
           print(
@@ -65,10 +82,11 @@ class _LoginPageState extends State<LoginPage> {
           Container(
             decoration: const BoxDecoration(
               image: DecorationImage(
-                  image: AssetImage(
-                      '../assets/beautiful-musical-notes-wave-background-design/11415.jpg'), // Remplacez par votre chemin d'image
-                  fit: BoxFit.cover // Pour couvrir tout l'écran
-                  ),
+                image: AssetImage(
+                  '../assets/beautiful-musical-notes-wave-background-design/11415.jpg', // Remplacez par votre chemin d'image
+                ),
+                fit: BoxFit.cover, // Pour couvrir tout l'écran
+              ),
             ),
           ),
           Center(
@@ -113,8 +131,10 @@ class _LoginPageState extends State<LoginPage> {
                         width: 300,
                         child: TextFormField(
                           controller: _usernameController,
-                          decoration:
-                              const InputDecoration(labelText: 'Username', prefixIcon: Icon(Icons.person,  color: Colors.grey)),
+                          decoration: const InputDecoration(
+                            labelText: 'Username',
+                            prefixIcon: Icon(Icons.person, color: Colors.grey),
+                          ),
                           validator: (value) {
                             if (value == null || value.isEmpty) {
                               return 'Please enter your username';
@@ -128,9 +148,10 @@ class _LoginPageState extends State<LoginPage> {
                         width: 300,
                         child: TextFormField(
                           controller: _passwordController,
-                          decoration:
-                              const InputDecoration(labelText: 'Password',  prefixIcon: Icon(Icons.lock, color: Colors.grey),
-                        ),
+                          decoration: const InputDecoration(
+                            labelText: 'Password',
+                            prefixIcon: Icon(Icons.lock, color: Colors.grey),
+                          ),
                           obscureText: true,
                           validator: (value) {
                             if (value == null || value.isEmpty) {
@@ -157,9 +178,10 @@ class _LoginPageState extends State<LoginPage> {
                               child: const Text(
                                 'Log In',
                                 style: TextStyle(
-                                    fontSize: 20,
-                                    fontFamily: 'Poppins',
-                                    color: Color.fromARGB(255, 129, 128, 128)),
+                                  fontSize: 20,
+                                  fontFamily: 'Poppins',
+                                  color: Color.fromARGB(255, 129, 128, 128),
+                                ),
                               ),
                             ),
                     ],

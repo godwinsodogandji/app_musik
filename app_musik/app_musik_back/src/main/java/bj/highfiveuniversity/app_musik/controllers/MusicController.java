@@ -11,7 +11,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/music")
 public class MusicController {
-
+    
     @Autowired
     private MusicService musicService;
 
@@ -23,18 +23,18 @@ public class MusicController {
     @GetMapping("/{id}")
     public ResponseEntity<Music> getMusicById(@PathVariable Long id) {
         Music music = musicService.findById(id);
-        return ResponseEntity.ok(music);
+        return music != null ? ResponseEntity.ok(music) : ResponseEntity.notFound().build();
     }
 
     @PostMapping
     public ResponseEntity<Music> createMusic(@RequestBody Music music) {
         Music newMusic = musicService.save(music);
-        return ResponseEntity.status(201).body(newMusic); // 201 Created
+        return ResponseEntity.ok(newMusic);
     }
 
     @PutMapping("/{id}")
     public ResponseEntity<Music> updateMusic(@PathVariable Long id, @RequestBody Music music) {
-        Music updatedMusic = musicService.update(id, music); // Appel de la méthode update
+        Music updatedMusic = musicService.update(id, music);
         return ResponseEntity.ok(updatedMusic);
     }
 
@@ -42,11 +42,5 @@ public class MusicController {
     public ResponseEntity<Void> deleteMusic(@PathVariable Long id) {
         musicService.deleteById(id);
         return ResponseEntity.noContent().build();
-    }
-
-    @PostMapping("/generate-music")
-    public String generateMusic(@RequestParam int count) {
-        musicService.generateFakeMusicData(count);
-        return count + " musiques fictives générées.";
     }
 }

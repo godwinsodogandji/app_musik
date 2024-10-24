@@ -3,7 +3,7 @@
 import 'package:app_musik_front/play_list.dart';
 import 'package:app_musik_front/home.dart';
 import 'package:app_musik_front/music.dart';
-import 'package:app_musik_front/video.dart';
+import 'package:app_musik_front/videos/screens/video.dart';
 
 
 import 'package:flutter/material.dart';
@@ -22,7 +22,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      home:  const RegisterPage(),
+      home:  const Home(),
       routes: {
         '/home': (context) => const Home(),
         '/video': (context) => const VideoPage(),
