@@ -1,9 +1,29 @@
+import 'package:app_musik_front/nav_bar.dart';
 import 'package:flutter/material.dart';
-// import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'nav_bar.dart';
+import 'package:shared_preferences/shared_preferences.dart'; // Importez le stockage partagé
+import 'login_page.dart'; // Assurez-vous d'importer votre page de connexion
 
 class Home extends StatelessWidget {
   const Home({super.key});
+
+  Future<void> _logout(BuildContext context) async {
+    // Instance de stockage partagé
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    
+    // Supprimer le token
+    await prefs.remove('auth_token');
+
+    // Afficher un message de confirmation
+    ScaffoldMessenger.of(context).showSnackBar(
+      const SnackBar(content: Text('Successfully logged out')),
+    );
+
+    // Redirection vers la page de connexion
+    Navigator.pushReplacement(
+      context,
+      MaterialPageRoute(builder: (context) => const LoginPage()),
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -11,7 +31,12 @@ class Home extends StatelessWidget {
       appBar: AppBar(
         title: const Text('App Music'),
         backgroundColor: Colors.transparent,
-      
+        actions: [
+          IconButton(
+            icon: const Icon(Icons.logout),
+            onPressed: () => _logout(context), // Appel à la méthode de déconnexion
+          ),
+        ],
       ),
       drawer: const NavBar(),
       body: Container(
@@ -41,7 +66,7 @@ class Home extends StatelessWidget {
               const SizedBox(height: 16),
 
               // Recommend Section
-              SectionTitle(title: 'Artist'),
+              const SectionTitle(title: 'Artist'),
               GridView.count(
                 crossAxisCount: 3,
                 shrinkWrap: true,
@@ -67,7 +92,7 @@ class Home extends StatelessWidget {
               const SizedBox(height: 16),
 
               // Album Section
-              SectionTitle(title: 'Genre'),
+              const SectionTitle(title: 'Genre'),
               GridView.count(
                 crossAxisCount: 3,
                 shrinkWrap: true,
@@ -98,7 +123,7 @@ class Home extends StatelessWidget {
 class SectionTitle extends StatelessWidget {
   final String title;
 
-  const SectionTitle({required this.title});
+  const SectionTitle({super.key, required this.title});
 
   @override
   Widget build(BuildContext context) {
@@ -106,7 +131,7 @@ class SectionTitle extends StatelessWidget {
       padding: const EdgeInsets.only(top: 20.0, bottom: 8.0),
       child: Text(
         title,
-        style: TextStyle(fontSize: 18.0, fontWeight: FontWeight.bold, color: Colors.white),
+        style: const TextStyle(fontSize: 18.0, fontWeight: FontWeight.bold, color: Colors.white),
       ),
     );
   }
@@ -117,7 +142,7 @@ class MusicItem extends StatelessWidget {
   final String title;
   final String artist;
 
-  const MusicItem({required this.imageUrl, required this.title, required this.artist});
+  const MusicItem({super.key, required this.imageUrl, required this.title, required this.artist});
 
   @override
   Widget build(BuildContext context) {
@@ -126,7 +151,7 @@ class MusicItem extends StatelessWidget {
         children: [
           Image.network(imageUrl, width: 150, height: 100, fit: BoxFit.cover,),
           const SizedBox(height: 4),
-          Text(title, style: TextStyle(fontSize: 14.0, color: Colors.white)),
+          Text(title, style: const TextStyle(fontSize: 14.0, color: Colors.white)),
           Text(artist, style: TextStyle(fontSize: 12.0, color: Colors.grey[400])),
         ],
       ),
@@ -139,7 +164,7 @@ class MusicGridItem extends StatelessWidget {
   final String title;
   final String? subtitle;
 
-  const MusicGridItem({required this.imageUrl, required this.title, this.subtitle});
+  const MusicGridItem({super.key, required this.imageUrl, required this.title, this.subtitle});
 
   @override
   Widget build(BuildContext context) {
@@ -147,7 +172,7 @@ class MusicGridItem extends StatelessWidget {
       children: [
         Image.network(imageUrl, width: 100, height: 100, fit: BoxFit.cover),
         const SizedBox(height: 4),
-        Text(title, style: TextStyle(fontSize: 14.0, color: Colors.white)),
+        Text(title, style: const TextStyle(fontSize: 14.0, color: Colors.white)),
         if (subtitle != null) ...[
           const SizedBox(height: 4),
           Text(subtitle!, style: TextStyle(fontSize: 12.0, color: Colors.grey[400])),

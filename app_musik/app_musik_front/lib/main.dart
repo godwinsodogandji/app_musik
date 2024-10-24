@@ -3,11 +3,12 @@
 import 'package:app_musik_front/play_list.dart';
 import 'package:app_musik_front/home.dart';
 import 'package:app_musik_front/music.dart';
-import 'package:app_musik_front/register_page.dart';
 import 'package:app_musik_front/video.dart';
 
 
 import 'package:flutter/material.dart';
+
+import 'register_page.dart';
 
 void main() {
   runApp(const MyApp());
