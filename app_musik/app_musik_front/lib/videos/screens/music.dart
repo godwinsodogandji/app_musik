@@ -1,3 +1,5 @@
+import 'package:app_musik_front/videos/screens/musik_player_page.dart';
+import 'package:app_musik_front/videos/screens/video.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'dart:convert'; // Nécessaire pour jsonDecode
@@ -61,6 +63,7 @@ class AlbumScreen extends StatelessWidget {
                     children: [
                       Image.network(
                         '../../../assets/134af8d4e28e7d0bb3355a8944749f0f.jpg',
+                        width: 150,
                         height: 200,
                         fit: BoxFit.cover,
                       ),
@@ -117,7 +120,23 @@ class AlbumScreen extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: musics.map((music) {
                         return PlaylistItem(
-                            title: music.title, artist: music.artist);
+                          title: music.title,
+                          artist: music.artist,
+                          file: music.file, // Passer le fichier audio
+                          onTap: () {
+                            // Naviguer vers la page du lecteur de musique
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => MusicPlayerPage(
+                                  title: music.title,
+                                  artist: music.artist,
+                                  audioFile: music.file, // Passe le chemin du fichier audio
+                                ),
+                              ),
+                            );
+                          },
+                        );
                       }).toList(),
                     ),
                   ),
@@ -131,65 +150,50 @@ class AlbumScreen extends StatelessWidget {
   }
 }
 
-class StatsItem extends StatelessWidget {
-  final IconData icon;
-  final String count;
-
-  const StatsItem({super.key, required this.icon, required this.count});
-
-  @override
-  Widget build(BuildContext context) {
-    return Column(
-      children: [
-        Icon(icon, color: Colors.white, size: 24),
-        const SizedBox(height: 4),
-        Text(count, style: const TextStyle(color: Colors.white, fontSize: 12)),
-      ],
-    );
-  }
-}
-
 class PlaylistItem extends StatelessWidget {
   final String title;
   final String artist;
+  final String file; // Champ pour le fichier audio
+  final VoidCallback onTap;
 
-  const PlaylistItem({super.key, required this.title, required this.artist});
+  const PlaylistItem({
+    super.key,
+    required this.title,
+    required this.artist,
+    required this.file,
+    required this.onTap,
+  });
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 8.0),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(title,
-                  style: const TextStyle(color: Colors.white, fontSize: 14)),
-              Text(artist,
-                  style: TextStyle(color: Colors.grey[400], fontSize: 12)),
-            ],
-          ),
-          const Icon(FontAwesomeIcons.play, color: Colors.white),
-        ],
+    return ListTile(
+      contentPadding: const EdgeInsets.symmetric(vertical: 8.0),
+      title: Text(
+        title,
+        style: const TextStyle(color: Colors.white),
       ),
+      subtitle: Text(
+        artist,
+        style: const TextStyle(color: Colors.grey),
+      ),
+      onTap: onTap,
     );
   }
 }
 
-// Modèle Music
+// Classe Music pour représenter les données des musiques
 class Music {
   final String title;
   final String artist;
+  final String file;
 
-  Music({required this.title, required this.artist});
+  Music({required this.title, required this.artist, required this.file});
 
-  // Méthode de création d'une instance Music à partir du JSON
   factory Music.fromJson(Map<String, dynamic> json) {
     return Music(
       title: json['title'],
       artist: json['artist'],
+      file: json['file'], // Récupérer le chemin du fichier audio
     );
   }
 }

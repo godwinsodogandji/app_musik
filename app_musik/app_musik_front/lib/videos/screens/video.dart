@@ -1,3 +1,4 @@
+import 'package:app_musik_front/videos/screens/player_video.dart';
 import 'package:app_musik_front/videos/video_service.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -11,11 +12,10 @@ class VideoPage extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Videos'),
-        backgroundColor: const Color(0xFF1A1A2E),
+        backgroundColor: const Color.fromARGB(255, 236, 236, 242),
       ),
       body: const VideoScreen(
-          apiUrl:
-              'http://localhost:8081/api/video'), // Remplacez par l'URL correcte
+          apiUrl: 'http://localhost:8081/api/video'), // Remplacez par l'URL correcte
     );
   }
 }
@@ -26,7 +26,6 @@ class VideoScreen extends StatefulWidget {
   const VideoScreen({super.key, required this.apiUrl});
 
   @override
-  // ignore: library_private_types_in_public_api
   _VideoScreenState createState() => _VideoScreenState();
 }
 
@@ -133,12 +132,12 @@ class _VideoScreenState extends State<VideoScreen> {
           const Text('PLAY ALL',
               style: TextStyle(color: Colors.white, fontSize: 18)),
           const SizedBox(height: 16),
-          ..._videos
-              .map((video) => VideoItem(
-                  title: video.title,
-                  artist: video.genre,
-                  duration: video.duration))
-              .toList(),
+          ..._videos.map((video) => VideoItem(
+              title: video.title,
+              artist: video.genre,
+              duration: video.duration,
+               // Assurez-vous de passer l'ID ici
+          )).toList(),
         ],
       ),
     );
@@ -167,11 +166,14 @@ class VideoItem extends StatelessWidget {
   final String title;
   final String artist;
 
-  const VideoItem(
-      {super.key,
-      required this.title,
-      required int duration,
-      required this.artist});
+
+  const VideoItem({
+    super.key,
+    required this.title,
+    required int duration,
+    required this.artist,
+  
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -189,9 +191,20 @@ class VideoItem extends StatelessWidget {
                   style: TextStyle(color: Colors.grey[400], fontSize: 12)),
             ],
           ),
-          const Icon(FontAwesomeIcons.play, color: Colors.white),
+          GestureDetector(
+            onTap: () {
+              Navigator.of(context).push(MaterialPageRoute(
+                builder: (context) => PlayVideoPage(
+                  title: title,
+                  artist: artist,
+                ),
+              ));
+            },
+            child: const Icon(FontAwesomeIcons.play, color: Colors.white),
+          ),
         ],
       ),
     );
   }
 }
+
