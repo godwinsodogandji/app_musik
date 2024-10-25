@@ -24,7 +24,7 @@ class AlbumScreen extends StatelessWidget {
 
   // Instancie le service de musique
   final String apiUrl =
-      'http://localhost:8081/api/music'; // URL de ton API de musique
+      'http://localhost:8081/api/music'; // URL de l' API de musique
 
   Future<List<Music>> fetchMusics() async {
     final response = await http.get(Uri.parse(apiUrl));
@@ -42,7 +42,13 @@ class AlbumScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      color: const Color(0xFF1A1A2E),
+      decoration: const BoxDecoration(
+        image: DecorationImage(
+          image: AssetImage(
+              '../assets/wavy-wallpaper-concept/3526699.jpg'), 
+          fit: BoxFit.cover, 
+        ),
+      ),
       child: FutureBuilder<List<Music>>(
         future: fetchMusics(),
         builder: (context, snapshot) {
@@ -131,7 +137,8 @@ class AlbumScreen extends StatelessWidget {
                                 builder: (context) => MusicPlayerPage(
                                   title: music.title,
                                   artist: music.artist,
-                                  audioFile: music.file, // Passe le chemin du fichier audio
+                                  audioFile: music
+                                      .file, // Passe le chemin du fichier audio
                                 ),
                               ),
                             );

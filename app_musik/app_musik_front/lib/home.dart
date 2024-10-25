@@ -9,7 +9,7 @@ class Home extends StatelessWidget {
   Future<void> _logout(BuildContext context) async {
     // Instance de stockage partagé
     final SharedPreferences prefs = await SharedPreferences.getInstance();
-    
+
     // Supprimer le token
     await prefs.remove('auth_token');
 
@@ -29,18 +29,38 @@ class Home extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('App Music'),
+        title: Row(
+          children: [
+            ClipRRect(
+              borderRadius: BorderRadius.circular(10),
+              child: Image.asset(
+                '../assets/1.png',
+                width: 40,
+                height: 40,
+                fit: BoxFit.cover,
+              ),
+            ),
+            const SizedBox(width: 10),
+            const Text('GOD MUSIC PLAYER'),
+          ],
+        ),
         backgroundColor: Colors.transparent,
         actions: [
           IconButton(
             icon: const Icon(Icons.logout),
-            onPressed: () => _logout(context), // Appel à la méthode de déconnexion
+            onPressed: () =>
+                _logout(context), // Appel à la méthode de déconnexion
           ),
         ],
       ),
       drawer: const NavBar(),
       body: Container(
-        color: const Color(0xFF1A1A2E),
+        decoration: const BoxDecoration(
+          image: DecorationImage(
+            image: AssetImage('../assets/wavy-wallpaper-concept/3526699.jpg'),
+            fit: BoxFit.cover,
+          ),
+        ),
         padding: const EdgeInsets.all(16.0),
         child: SingleChildScrollView(
           child: Column(
@@ -131,7 +151,8 @@ class SectionTitle extends StatelessWidget {
       padding: const EdgeInsets.only(top: 20.0, bottom: 8.0),
       child: Text(
         title,
-        style: const TextStyle(fontSize: 18.0, fontWeight: FontWeight.bold, color: Colors.white),
+        style: const TextStyle(
+            fontSize: 18.0, fontWeight: FontWeight.bold, color: Colors.white),
       ),
     );
   }
@@ -142,17 +163,28 @@ class MusicItem extends StatelessWidget {
   final String title;
   final String artist;
 
-  const MusicItem({super.key, required this.imageUrl, required this.title, required this.artist});
+  const MusicItem(
+      {super.key,
+      required this.imageUrl,
+      required this.title,
+      required this.artist});
 
   @override
   Widget build(BuildContext context) {
     return Expanded(
       child: Column(
         children: [
-          Image.network(imageUrl, width: 150, height: 100, fit: BoxFit.cover,),
+          Image.network(
+            imageUrl,
+            width: 150,
+            height: 100,
+            fit: BoxFit.cover,
+          ),
           const SizedBox(height: 4),
-          Text(title, style: const TextStyle(fontSize: 14.0, color: Colors.white)),
-          Text(artist, style: TextStyle(fontSize: 12.0, color: Colors.grey[400])),
+          Text(title,
+              style: const TextStyle(fontSize: 14.0, color: Colors.white)),
+          Text(artist,
+              style: TextStyle(fontSize: 12.0, color: Colors.grey[400])),
         ],
       ),
     );
@@ -164,7 +196,8 @@ class MusicGridItem extends StatelessWidget {
   final String title;
   final String? subtitle;
 
-  const MusicGridItem({super.key, required this.imageUrl, required this.title, this.subtitle});
+  const MusicGridItem(
+      {super.key, required this.imageUrl, required this.title, this.subtitle});
 
   @override
   Widget build(BuildContext context) {
@@ -172,10 +205,12 @@ class MusicGridItem extends StatelessWidget {
       children: [
         Image.network(imageUrl, width: 100, height: 100, fit: BoxFit.cover),
         const SizedBox(height: 4),
-        Text(title, style: const TextStyle(fontSize: 14.0, color: Colors.white)),
+        Text(title,
+            style: const TextStyle(fontSize: 14.0, color: Colors.white)),
         if (subtitle != null) ...[
           const SizedBox(height: 4),
-          Text(subtitle!, style: TextStyle(fontSize: 12.0, color: Colors.grey[400])),
+          Text(subtitle!,
+              style: TextStyle(fontSize: 12.0, color: Colors.grey[400])),
         ],
       ],
     );

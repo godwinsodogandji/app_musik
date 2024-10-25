@@ -47,7 +47,14 @@ class _PlayVideoPageState extends State<PlayVideoPage> {
       ),
       body: Container(
         padding: const EdgeInsets.all(20),
-        color: const Color(0xFF0D0D1E),
+        decoration: const BoxDecoration(
+          image: DecorationImage(
+            image: AssetImage(
+                '../../../assets/still-life-wireless-cyberpunk-headphones.jpg'), // Chemin de ton image
+            fit:
+                BoxFit.cover, // Ajuste l'image pour qu'elle couvre tout l'écran
+          ),
+        ),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [

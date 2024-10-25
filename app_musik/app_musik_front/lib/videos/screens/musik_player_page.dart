@@ -40,7 +40,7 @@ class _MusicPlayerPageState extends State<MusicPlayerPage> {
         _audioPlayer.pause(); // Pause la musique
       } else {
         await _audioPlayer.setAsset(
-           "../../../assets/Sunny Fruit - Beat Blitz.mp3"); // Charge le fichier audio à partir des assets
+            "../../../assets/Sunny Fruit - Beat Blitz.mp3"); // Charge le fichier audio à partir des assets
         _audioPlayer.play(); // Joue la musique
       }
       setState(() {
@@ -67,13 +67,11 @@ class _MusicPlayerPageState extends State<MusicPlayerPage> {
       ),
       body: Container(
         decoration: const BoxDecoration(
-          gradient: LinearGradient(
-            colors: [
-              Color(0xFF1A1A2E),
-              Color(0xFF162447),
-            ],
-            begin: Alignment.topLeft,
-            end: Alignment.bottomRight,
+          image: DecorationImage(
+            image: AssetImage(
+                '../../../assets/still-life-wireless-cyberpunk-headphones.jpg'), // Chemin de ton image
+            fit:
+                BoxFit.cover, // Ajuste l'image pour qu'elle couvre tout l'écran
           ),
         ),
         child: Padding(
