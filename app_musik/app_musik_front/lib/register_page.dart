@@ -44,7 +44,8 @@ class _RegisterPageState extends State<RegisterPage> {
           );
         } else {
           final errorData = jsonDecode(response.body);
-          print('Registration failed: ${response.reasonPhrase}, Details: ${errorData['message']}');
+          print(
+              'Registration failed: ${response.reasonPhrase}, Details: ${errorData['message']}');
         }
       } catch (e) {
         print('Error: $e');
@@ -64,9 +65,10 @@ class _RegisterPageState extends State<RegisterPage> {
           Container(
             decoration: const BoxDecoration(
               image: DecorationImage(
-                  image: AssetImage(
-                      '../assets/vector-music-melody-note-dancing-flow/musbackround1_12.jpg'),
-                  fit: BoxFit.cover),
+                image: AssetImage(
+                    '../assets/vector-music-melody-note-dancing-flow/musbackround1_12.jpg'),
+                fit: BoxFit.cover,
+              ),
             ),
           ),
           Center(
@@ -110,8 +112,9 @@ class _RegisterPageState extends State<RegisterPage> {
                         child: TextFormField(
                           controller: _usernameController,
                           decoration: const InputDecoration(
-                              labelText: 'Username',
-                              prefixIcon: Icon(Icons.person, color: Colors.grey)),
+                            labelText: 'Username',
+                            prefixIcon: Icon(Icons.person, color: Colors.grey),
+                          ),
                           validator: (value) {
                             if (value == null || value.isEmpty) {
                               return 'Please enter your username';
@@ -126,8 +129,9 @@ class _RegisterPageState extends State<RegisterPage> {
                         child: TextFormField(
                           controller: _emailController,
                           decoration: const InputDecoration(
-                              labelText: 'Email',
-                              prefixIcon: Icon(Icons.email, color: Colors.grey)),
+                            labelText: 'Email',
+                            prefixIcon: Icon(Icons.email, color: Colors.grey),
+                          ),
                           validator: (value) {
                             if (value == null || value.isEmpty) {
                               return 'Please enter your email';
@@ -142,8 +146,9 @@ class _RegisterPageState extends State<RegisterPage> {
                         child: TextFormField(
                           controller: _passwordController,
                           decoration: const InputDecoration(
-                              labelText: 'Password',
-                              prefixIcon: Icon(Icons.lock, color: Colors.grey)),
+                            labelText: 'Password',
+                            prefixIcon: Icon(Icons.lock, color: Colors.grey),
+                          ),
                           obscureText: true,
                           validator: (value) {
                             if (value == null || value.isEmpty) {
@@ -167,11 +172,31 @@ class _RegisterPageState extends State<RegisterPage> {
                               child: const Text(
                                 'Register',
                                 style: TextStyle(
-                                    fontSize: 20,
-                                    fontFamily: 'Poppins',
-                                    color: Color.fromARGB(255, 129, 128, 128)),
+                                  fontSize: 20,
+                                  fontFamily: 'Poppins',
+                                  color: Color.fromARGB(255, 129, 128, 128),
+                                ),
                               ),
                             ),
+                      const SizedBox(height: 20),
+                      // Texte pour redirection vers la page de login
+                      TextButton(
+                        onPressed: () {
+                          Navigator.pushReplacement(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => const LoginPage()),
+                          );
+                        },
+                        child: const Text(
+                          "Avez-vous déjà un compte ? Connectez-vous.",
+                          style: TextStyle(
+                            fontSize: 16,
+                            color: Colors.blue, // Couleur violette
+                            fontWeight: FontWeight.w500,
+                          ),
+                        ),
+                      ),
                     ],
                   ),
                 ),

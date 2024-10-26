@@ -5,13 +5,14 @@ import bj.highfiveuniversity.app_musik.services.MusicService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.bind.annotation.RequestParam;
 import java.util.List;
 
 @RestController
 @RequestMapping("/api/music")
 public class MusicController {
-    
+
     @Autowired
     private MusicService musicService;
 
@@ -23,14 +24,28 @@ public class MusicController {
     @GetMapping("/{id}")
     public ResponseEntity<Music> getMusicById(@PathVariable Long id) {
         Music music = musicService.findById(id);
-        return music != null ? ResponseEntity.ok(music) : ResponseEntity.notFound().build();
+        return ResponseEntity.ok(music);
     }
 
-    @PostMapping
-    public ResponseEntity<Music> createMusic(@RequestBody Music music) {
-        Music newMusic = musicService.save(music);
-        return ResponseEntity.ok(newMusic);
-    }
+  @PostMapping
+public ResponseEntity<Music> createMusic(
+        @RequestParam("title") String title,
+        @RequestParam("artist") String artist,
+        @RequestParam("album") String album,
+        @RequestParam("genre") String genre,
+        @RequestParam("duration") int duration,
+        @RequestParam("file") MultipartFile file) {
+    
+    Music music = new Music();
+    music.setTitle(title);
+    music.setArtist(artist);
+    music.setAlbum(album);
+    music.setGenre(genre);
+    music.setDuration(duration);
+    
+    Music createdMusic = musicService.save(music, file);
+    return ResponseEntity.status(201).body(createdMusic);
+}
 
     @PutMapping("/{id}")
     public ResponseEntity<Music> updateMusic(@PathVariable Long id, @RequestBody Music music) {

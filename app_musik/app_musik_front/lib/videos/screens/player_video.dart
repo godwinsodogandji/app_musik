@@ -46,11 +46,11 @@ class _PlayVideoPageState extends State<PlayVideoPage> {
         elevation: 0,
       ),
       body: Container(
-        padding: const EdgeInsets.all(20),
+        padding: const EdgeInsets.only(bottom: 20, left: 20, right: 20),
         decoration: const BoxDecoration(
           image: DecorationImage(
             image: AssetImage(
-                '../../../assets/still-life-wireless-cyberpunk-headphones.jpg'), // Chemin de ton image
+                '../../../assets/still-life-wireless-cyberpunk-headphones.jpg'),
             fit:
                 BoxFit.cover, // Ajuste l'image pour qu'elle couvre tout l'écran
           ),
@@ -73,10 +73,10 @@ class _PlayVideoPageState extends State<PlayVideoPage> {
   Widget _buildVideoThumbnail() {
     return Center(
       child: Container(
-        width: double.infinity,
-        height: 300,
+        width:double.infinity,
+        height: 500,
         decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(10),
+          borderRadius: BorderRadius.circular(15),
           image: const DecorationImage(
             image: AssetImage(
                 '../../../assets/realistic-world-music-day-background-with-instruments/7244594.jpg'), // Exemple d'image

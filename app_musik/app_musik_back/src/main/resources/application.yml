@@ -5,13 +5,23 @@ spring:
     url: jdbc:mysql://localhost:3306/app_musik?createDatabaseIfNotExist=true
     driver-class-name: com.mysql.cj.jdbc.Driver
     username: root
-    password:
+    password: 
   jpa:
     show-sql: true
     hibernate:
-      ddl-auto: create-drop
+      ddl-auto: update 
+  servlet:
+    multipart:
+      max-file-size: 2000MB
+      max-request-size: 2000MB
+
 server:
   port: 8081
 
 jwt:
-  secret-key: uA7b2Lqz19Jd28kPm30YwVf5eRr01TqD
+  secret-key: uA7b2Lqz19Jd28kPm30YwVf5eRr01TqD 
+
+# Configuration pour l'utilisation de fichiers audio locaux dans la base de données
+app:
+  audio:
+    storage-path: C:\\Users\\godwin.sodogandji\\Documents\\dev\\app_musik\\app_musik\\app_musik_back\\src\\main\\upload # Spécifie le chemin local où les fichiers audio sont stockés

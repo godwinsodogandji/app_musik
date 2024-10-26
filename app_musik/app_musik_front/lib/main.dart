@@ -8,7 +8,6 @@ import 'package:app_musik_front/videos/screens/video.dart';
 
 import 'package:flutter/material.dart';
 
-import 'register_page.dart';
 
 void main() {
   runApp(const MyApp());

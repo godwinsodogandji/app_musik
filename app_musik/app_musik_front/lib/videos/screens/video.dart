@@ -3,6 +3,7 @@ import 'package:app_musik_front/videos/video_service.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:app_musik_front/videos/models/video.dart';
+import 'package:app_musik_front/videos/screens/add_video_page.dart'; // Ajoutez l'importation pour AddVideoPage
 
 class VideoPage extends StatelessWidget {
   const VideoPage({super.key});
@@ -14,9 +15,7 @@ class VideoPage extends StatelessWidget {
         title: const Text('Videos'),
         backgroundColor: const Color.fromARGB(255, 236, 236, 242),
       ),
-      body: const VideoScreen(
-          apiUrl:
-              'http://localhost:8081/api/video'), // Remplacez par l'URL correcte
+      body: const VideoScreen(apiUrl: 'http://localhost:8081/api/video'),
     );
   }
 }
@@ -27,6 +26,7 @@ class VideoScreen extends StatefulWidget {
   const VideoScreen({super.key, required this.apiUrl});
 
   @override
+  // ignore: library_private_types_in_public_api
   _VideoScreenState createState() => _VideoScreenState();
 }
 
@@ -57,14 +57,27 @@ class _VideoScreenState extends State<VideoScreen> {
     }
   }
 
+  // Fonction pour afficher le modal d'ajout de vidéo
+  void _showAddVideoModal() {
+    showDialog(
+      context: context,
+      builder: (context) {
+        return const Dialog(
+          child: AddVideoPage(), // Utilisez votre widget de formulaire ici
+        );
+      },
+    ).then((_) {
+      _fetchVideos(); // Rechargez la liste des vidéos après l'ajout
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Container(
       decoration: const BoxDecoration(
         image: DecorationImage(
-          image: AssetImage(
-              '../assets/wavy-wallpaper-concept/3526699.jpg'), 
-          fit: BoxFit.cover, 
+          image: AssetImage('../assets/wavy-wallpaper-concept/3526699.jpg'),
+          fit: BoxFit.cover,
         ),
       ),
       child: SingleChildScrollView(
@@ -118,13 +131,31 @@ class _VideoScreenState extends State<VideoScreen> {
     return Container(
       color: const Color(0xFF2A2A3E),
       padding: const EdgeInsets.symmetric(vertical: 16),
-      child: const Row(
+      child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceAround,
         children: [
-          StatsItem(icon: FontAwesomeIcons.heart, count: '1,207'),
-          StatsItem(icon: FontAwesomeIcons.comment, count: '188'),
-          StatsItem(icon: FontAwesomeIcons.share, count: '1,339'),
-          StatsItem(icon: FontAwesomeIcons.star, count: '2,008'),
+          GestureDetector(
+            onTap: _showAddVideoModal, // Affichez le modal d'ajout
+            child: const StatsItem(
+              style: TextStyle(color: Colors.white),
+              icon: FontAwesomeIcons.plus,
+               tooltip: 'Ajouter',
+              count: '', // Icône d'ajout
+            ),
+          ),
+          const StatsItem(
+            style: TextStyle(color: Colors.white),
+            // ignore: deprecated_member_use
+            icon: FontAwesomeIcons.edit,
+             tooltip: 'Modifier',
+            count: '', // Icône de modification
+          ),
+          const StatsItem(
+            style: TextStyle(color: Colors.white),
+            icon: FontAwesomeIcons.trash, count: '',
+             tooltip: 'Supprimer'
+           // Icône de suppression
+          ),
         ],
       ),
     );
@@ -157,15 +188,25 @@ class StatsItem extends StatelessWidget {
   final IconData icon;
   final String count;
 
-  const StatsItem({super.key, required this.icon, required this.count});
+  const StatsItem({
+    Key? key,
+    required this.icon,
+    required this.count,
+    required TextStyle style, required String tooltip,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Column(
+      mainAxisAlignment: MainAxisAlignment.center,
       children: [
-        Icon(icon, color: Colors.white, size: 24),
+        Icon(
+          icon,
+          size: 30,
+          color: const Color.fromARGB(255, 190, 192, 194),
+        ),
         const SizedBox(height: 4),
-        Text(count, style: const TextStyle(color: Colors.white, fontSize: 12)),
+        
       ],
     );
   }
@@ -193,9 +234,11 @@ class VideoItem extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(title,
-                  style: const TextStyle(color: Colors.white, fontSize: 14)),
+                  style: const TextStyle(
+                      color: Color.fromARGB(255, 6, 5, 5), fontSize: 14)),
               Text(artist,
-                  style: TextStyle(color: Colors.grey[400], fontSize: 12)),
+                  style: const TextStyle(
+                      color: Color.fromARGB(255, 213, 211, 211), fontSize: 12)),
             ],
           ),
           GestureDetector(

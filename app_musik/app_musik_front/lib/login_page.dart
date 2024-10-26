@@ -3,6 +3,7 @@ import 'package:app_musik_front/home.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
+import 'register_page.dart'; // Assurez-vous d'importer la page de registre
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
@@ -46,9 +47,7 @@ class _LoginPageState extends State<LoginPage> {
           // Stocker le token
           final prefs = await SharedPreferences.getInstance();
           await prefs.setString('token', responseData['token']);
-          print( prefs.getString('token'));
-
-
+          print(prefs.getString('token'));
 
           // Vider les champs après une connexion réussie
           _usernameController.clear();
@@ -58,7 +57,7 @@ class _LoginPageState extends State<LoginPage> {
           Navigator.of(context).pushReplacement(
             MaterialPageRoute(
                 builder: (context) =>
-                    Home()), // Remplacez HomePage par le nom de votre page d'accueil
+                    Home()), // Remplacez Home par le nom de votre page d'accueil
           );
         } else {
           final errorData = jsonDecode(response.body);
@@ -184,6 +183,26 @@ class _LoginPageState extends State<LoginPage> {
                                 ),
                               ),
                             ),
+                      const SizedBox(
+                          height:
+                              20), // Espace pour le texte "Forgot password?"
+                      TextButton(
+                        onPressed: () {
+                          // Redirection vers la page de réinitialisation ou d'inscription
+                          Navigator.of(context).push(
+                            MaterialPageRoute(
+                                builder: (context) =>
+                                    const RegisterPage()), // Remplacez par votre page de réinitialisation
+                          );
+                        },
+                        child: const Text(
+                          'Forgot password?',
+                          style: TextStyle(
+                            color: Colors.blue, // Couleur du texte
+                            fontSize: 16, // Taille de la police
+                          ),
+                        ),
+                      ),
                     ],
                   ),
                 ),

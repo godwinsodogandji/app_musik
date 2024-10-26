@@ -1,5 +1,3 @@
-import 'package:flutter/material.dart';
-
 class Video {
   final String title;
   final String director;
@@ -21,17 +19,29 @@ class Video {
     required this.updatedAt,
   });
 
-  factory Video.fromJson(Map<String, dynamic> json) {
-  return Video(
-    title: json['title'] ?? '',
-    director: json['director'] ?? '',
-    genre: json['genre'] ?? '',
-    duration: json['duration'] ?? 0,
-    file: json['file'] ?? '',
-    resolution: json['resolution'] ?? '',
-    createdAt: json['createdAt'] ?? '',
-    updatedAt: json['updatedAt'] ?? '',
-  );
-}
+  Map<String, dynamic> toJson() {
+    return {
+      'title': title,
+      'director': director,
+      'genre': genre,
+      'duration': duration,
+      'file': file,
+      'resolution': resolution,
+      'createdAt': createdAt,
+      'updatedAt': updatedAt,
+    };
+  }
 
+  factory Video.fromJson(Map<String, dynamic> json) {
+    return Video(
+      title: json['title'],
+      director: json['director'],
+      genre: json['genre'],
+      duration: json['duration'],
+      file: json['file'],
+      resolution: json['resolution'],
+      createdAt: json['createdAt'],
+      updatedAt: json['updatedAt'],
+    );
+  }
 }
