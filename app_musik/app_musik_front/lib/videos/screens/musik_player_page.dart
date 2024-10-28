@@ -4,8 +4,8 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:app_musik_front/videos/screens/music.dart';
 
 class MusicPlayerPage extends StatefulWidget {
-  final List<Music> musics; // Liste de musiques
-  final int initialIndex; // Index de la musique initiale
+  final List<Music> musics;
+  final int initialIndex;
 
   const MusicPlayerPage({
     super.key,
@@ -13,27 +13,32 @@ class MusicPlayerPage extends StatefulWidget {
     this.initialIndex = 0,
     required String title,
     required String artist,
-    required String audioFile, // Par défaut, lecture de la première musique
+    required String audioFile,
   });
 
   @override
   _MusicPlayerPageState createState() => _MusicPlayerPageState();
 }
 
-class _MusicPlayerPageState extends State<MusicPlayerPage> {
-  late AudioPlayer _audioPlayer; // Déclare le lecteur audio
-  bool isPlaying = false; // Gère l'état de lecture
-  int currentIndex = 0; // Index de la piste actuelle
-  Duration _currentPosition = Duration.zero; // Position actuelle de la musique
-  Duration _totalDuration = Duration.zero; // Durée totale de la musique
+class _MusicPlayerPageState extends State<MusicPlayerPage>
+    with SingleTickerProviderStateMixin {
+  late AudioPlayer _audioPlayer;
+  late AnimationController _animationController;
+  bool isPlaying = false;
+  int currentIndex = 0;
+  Duration _currentPosition = Duration.zero;
+  Duration _totalDuration = Duration.zero;
 
   @override
   void initState() {
     super.initState();
-    _audioPlayer = AudioPlayer(); // Initialise le lecteur
-    currentIndex = widget.initialIndex; // Définit l'index initial
+    _audioPlayer = AudioPlayer();
+    _animationController =
+        AnimationController(vsync: this, duration: const Duration(seconds: 10))
+          ..repeat();
 
-    // S'abonner aux streams pour la position et la durée
+    currentIndex = widget.initialIndex;
+
     _audioPlayer.positionStream.listen((position) {
       setState(() {
         _currentPosition = position;
@@ -46,25 +51,24 @@ class _MusicPlayerPageState extends State<MusicPlayerPage> {
       });
     });
 
-    // Charger la première piste
     _loadMusic();
   }
 
   @override
   void dispose() {
-    _audioPlayer.dispose(); // Libère les ressources
+    _audioPlayer.dispose();
+    _animationController.dispose();
     super.dispose();
   }
 
   Future<void> _loadMusic() async {
     try {
-      // Charge la piste actuelle
       await _audioPlayer
           .setAsset('../../../assets/Sunny Fruit - Beat Blitz.mp3');
-      _audioPlayer
-          .play(); // Joue automatiquement la musique après le chargement
+      _audioPlayer.play();
       setState(() {
-        isPlaying = true; // Met à jour l'état de lecture
+        isPlaying = true;
+        _animationController.repeat();
       });
     } catch (e) {
       print('Erreur de lecture: $e');
@@ -73,16 +77,17 @@ class _MusicPlayerPageState extends State<MusicPlayerPage> {
 
   void _togglePlayPause() async {
     if (isPlaying) {
-      _audioPlayer.pause(); // Pause la musique
+      _audioPlayer.pause();
+      _animationController.stop();
     } else {
-      _audioPlayer.play(); // Joue la musique
+      _audioPlayer.play();
+      _animationController.repeat();
     }
     setState(() {
       isPlaying = !isPlaying;
     });
   }
 
-  // Passe à la piste suivante
   void _nextTrack() async {
     if (currentIndex < widget.musics.length - 1) {
       setState(() {
@@ -92,7 +97,6 @@ class _MusicPlayerPageState extends State<MusicPlayerPage> {
     }
   }
 
-  // Revient à la piste précédente
   void _previousTrack() async {
     if (currentIndex > 0) {
       setState(() {
@@ -104,7 +108,7 @@ class _MusicPlayerPageState extends State<MusicPlayerPage> {
 
   void _seekToPosition(double value) {
     final position = Duration(seconds: value.toInt());
-    _audioPlayer.seek(position); // Change la position de la musique
+    _audioPlayer.seek(position);
   }
 
   @override
@@ -116,7 +120,7 @@ class _MusicPlayerPageState extends State<MusicPlayerPage> {
         leading: IconButton(
           icon: const Icon(FontAwesomeIcons.arrowLeft, color: Colors.white),
           onPressed: () {
-            Navigator.pop(context); // Retourne à la page précédente
+            Navigator.pop(context);
           },
         ),
         title: const Text('Now Playing'),
@@ -125,10 +129,8 @@ class _MusicPlayerPageState extends State<MusicPlayerPage> {
       body: Container(
         decoration: const BoxDecoration(
           image: DecorationImage(
-            image: AssetImage(
-                '../../../assets/abstract-moon-start-lights.jpg'), // Chemin de ton image
-            fit:
-                BoxFit.cover, // Ajuste l'image pour qu'elle couvre tout l'écran
+            image: AssetImage('../../../assets/abstract-moon-start-lights.jpg'),
+            fit: BoxFit.cover,
           ),
         ),
         child: Padding(
@@ -136,25 +138,33 @@ class _MusicPlayerPageState extends State<MusicPlayerPage> {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              // Couverture de l'album
-              Container(
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(15),
-                  boxShadow: const [
-                    BoxShadow(
-                      color: Colors.black26,
-                      blurRadius: 15,
-                      offset: Offset(0, 10),
+              AnimatedBuilder(
+                animation: _animationController,
+                builder: (context, child) {
+                  return Transform.rotate(
+                    angle: _animationController.value * 2.0 * 3.141592653589793,
+                    child: child,
+                  );
+                },
+                child: Container(
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(15),
+                    boxShadow: const [
+                      BoxShadow(
+                        color: Colors.black26,
+                        blurRadius: 15,
+                        offset: Offset(0, 10),
+                      ),
+                    ],
+                  ),
+                  child: ClipOval(
+                    child: Image.network(
+                      'assets/vector-music-melody-note-dancing-flow/musbackround1_12.jpg',
+                      height:
+                          250, // largeur et hauteur égales pour un cercle parfait
+                      width: 250,
+                      fit: BoxFit.cover,
                     ),
-                  ],
-                ),
-                child: ClipRRect(
-                  borderRadius: BorderRadius.circular(15),
-                  child: Image.network(
-                    'assets/vector-music-melody-note-dancing-flow/musbackround1_12.jpg', // Image de couverture
-                    height: 250,
-                    width: 150,
-                    fit: BoxFit.cover,
                   ),
                 ),
               ),
@@ -182,13 +192,12 @@ class _MusicPlayerPageState extends State<MusicPlayerPage> {
                 color: Colors.white,
               ),
               const SizedBox(height: 32),
-              // Barre de progression
               Slider(
                 value: _currentPosition.inSeconds.toDouble(),
                 min: 0.0,
                 max: _totalDuration.inSeconds.toDouble(),
                 onChanged: (value) {
-                  _seekToPosition(value); // Change la position de la musique
+                  _seekToPosition(value);
                 },
               ),
               Row(
@@ -211,12 +220,11 @@ class _MusicPlayerPageState extends State<MusicPlayerPage> {
                   IconButton(
                     icon: const Icon(FontAwesomeIcons.backward,
                         color: Colors.white),
-                    onPressed: _previousTrack, // Passe à la piste précédente
+                    onPressed: _previousTrack,
                   ),
                   const SizedBox(width: 20),
                   ElevatedButton(
-                    onPressed:
-                        _togglePlayPause, // Appelle la méthode de lecture/pause
+                    onPressed: _togglePlayPause,
                     style: ElevatedButton.styleFrom(
                       backgroundColor: Colors.blueAccent,
                       padding: const EdgeInsets.symmetric(
@@ -226,9 +234,7 @@ class _MusicPlayerPageState extends State<MusicPlayerPage> {
                       ),
                     ),
                     child: Text(
-                      isPlaying
-                          ? 'Pause'
-                          : 'Play', // Change le texte selon l'état
+                      isPlaying ? 'Pause' : 'Play',
                       style: const TextStyle(fontSize: 16),
                     ),
                   ),
@@ -236,7 +242,7 @@ class _MusicPlayerPageState extends State<MusicPlayerPage> {
                   IconButton(
                     icon: const Icon(FontAwesomeIcons.forward,
                         color: Colors.white),
-                    onPressed: _nextTrack, // Passe à la piste suivante
+                    onPressed: _nextTrack,
                   ),
                 ],
               ),
@@ -247,7 +253,6 @@ class _MusicPlayerPageState extends State<MusicPlayerPage> {
     );
   }
 
-  // Formate la durée en minutes:secondes
   String _formatDuration(Duration duration) {
     String twoDigits(int n) => n.toString().padLeft(2, '0');
     final minutes = twoDigits(duration.inMinutes.remainder(60));
