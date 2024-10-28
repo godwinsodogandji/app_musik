@@ -29,7 +29,21 @@ class Home extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('App Music'),
+        title: Row(
+          children: [
+            ClipRRect(
+              borderRadius: BorderRadius.circular(10),
+              child: Image.asset(
+                '../assets/1.png',
+                width: 40,
+                height: 40,
+                fit: BoxFit.cover,
+              ),
+            ),
+            const SizedBox(width: 10),
+            const Text('GOD MUSIC PLAYER'),
+          ],
+        ),
         backgroundColor: Colors.transparent,
         actions: [
           IconButton(
@@ -41,7 +55,12 @@ class Home extends StatelessWidget {
       ),
       drawer: const NavBar(),
       body: Container(
-        color: const Color(0xFF1A1A2E),
+        decoration: const BoxDecoration(
+          image: DecorationImage(
+            image: AssetImage('../assets/wavy-wallpaper-concept/3526699.jpg'),
+            fit: BoxFit.cover,
+          ),
+        ),
         padding: const EdgeInsets.all(16.0),
         child: SingleChildScrollView(
           child: Column(
@@ -186,15 +205,22 @@ class MusicItem extends StatelessWidget {
       child: Column(
         children: [
           Image.network(
+            
             imageUrl,
+           
             width: 750,
+           
             height: 500,
+           
             fit: BoxFit.cover,
+          
           ),
           const SizedBox(height: 1),
           Text(title,
+             
               style: const TextStyle(fontSize: 14.0, color: Colors.white)),
           Text(artist,
+             
               style: TextStyle(fontSize: 12.0, color: Colors.grey[400])),
         ],
       ),
@@ -217,10 +243,12 @@ class MusicGridItem extends StatelessWidget {
         Image.network(imageUrl, width: 500, height: 250, fit: BoxFit.cover),
         const SizedBox(height: 1),
         Text(title,
+           
             style: const TextStyle(fontSize: 14.0, color: Colors.white)),
         if (subtitle != null) ...[
           const SizedBox(height: 1),
           Text(subtitle!,
+             
               style: TextStyle(fontSize: 12.0, color: Colors.grey[400])),
         ],
       ],
