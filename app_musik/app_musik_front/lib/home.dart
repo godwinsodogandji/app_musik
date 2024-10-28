@@ -205,15 +205,21 @@ class MusicItem extends StatelessWidget {
       child: Column(
         children: [
           Image.network(
+            
             imageUrl,
             width: 750,
+           
             height: 500,
+           
             fit: BoxFit.cover,
+          
           ),
           const SizedBox(height: 1),
           Text(title,
+             
               style: const TextStyle(fontSize: 14.0, color: Colors.white)),
           Text(artist,
+             
               style: TextStyle(fontSize: 12.0, color: Colors.grey[400])),
         ],
       ),
@@ -236,10 +242,12 @@ class MusicGridItem extends StatelessWidget {
         Image.network(imageUrl, width: 500, height: 250, fit: BoxFit.cover),
         const SizedBox(height: 1),
         Text(title,
+           
             style: const TextStyle(fontSize: 14.0, color: Colors.white)),
         if (subtitle != null) ...[
           const SizedBox(height: 1),
           Text(subtitle!,
+             
               style: TextStyle(fontSize: 12.0, color: Colors.grey[400])),
         ],
       ],
