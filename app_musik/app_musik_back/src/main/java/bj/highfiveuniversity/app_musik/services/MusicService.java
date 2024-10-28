@@ -54,8 +54,8 @@ public class MusicService {
 
                 // Sauvegarde du fichier
                 Files.copy(file.getInputStream(), targetLocation);
-                music.setFile(targetLocation.getFileName().toString());
-                
+                music.setFile(originalFilename); // Enregistrez le nom du fichier pour la base de données
+
                 // Log pour le débogage
                 System.out.println("Fichier sauvegardé à : " + targetLocation.toString());
             } catch (IOException e) {
@@ -87,6 +87,21 @@ public class MusicService {
     public void deleteById(Long id) {
         musicRepository.deleteById(id);
     }
+
+   // Nouvelle méthode pour récupérer le fichier audio par son ID
+   public byte[] getAudioFileById(Long id) {
+    Music music = musicRepository.findById(id)
+            .orElseThrow(() -> new RuntimeException("Aucune musique trouvée avec l'id " + id));
+
+    // Construire le chemin du fichier
+    Path filePath = Paths.get(uploadDir, music.getFile());
+    
+    try {
+        return Files.readAllBytes(filePath); // Lire et renvoyer les octets du fichier
+    } catch (IOException e) {
+        throw new RuntimeException("Erreur lors de la lecture du fichier: " + e.getMessage());
+    }
+}
 
     @Transactional
     public void generateFakeMusicData(int count) {

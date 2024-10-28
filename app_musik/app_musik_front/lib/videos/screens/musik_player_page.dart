@@ -1,3 +1,4 @@
+import 'package:app_musik_front/videos/models/musik.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:just_audio/just_audio.dart';
@@ -23,6 +24,10 @@ class _MusicPlayerPageState extends State<MusicPlayerPage> {
   late AudioPlayer _audioPlayer; // Déclare le lecteur audio
   bool isPlaying = false; // Gère l'état de lecture
 
+  int index = 0;
+
+  
+
   @override
   void initState() {
     super.initState();
@@ -40,7 +45,7 @@ class _MusicPlayerPageState extends State<MusicPlayerPage> {
       if (isPlaying) {
         _audioPlayer.pause(); // Pause la musique
       } else {
-        await _audioPlayer.setAsset(
+        await _audioPlayer.setUrl(
             "../../../assets/Sunny Fruit - Beat Blitz.mp3"); // Charge le fichier audio à partir des assets
         _audioPlayer.play(); // Joue la musique
       }
@@ -70,7 +75,7 @@ class _MusicPlayerPageState extends State<MusicPlayerPage> {
         decoration: const BoxDecoration(
           image: DecorationImage(
             image: AssetImage(
-                '../../../assets/still-life-wireless-cyberpunk-headphones.jpg'), // Chemin de ton image
+                '../../../assets/abstract-moon-start-lights.jpg'), // Chemin de ton image
             fit:
                 BoxFit.cover, // Ajuste l'image pour qu'elle couvre tout l'écran
           ),
@@ -134,6 +139,7 @@ class _MusicPlayerPageState extends State<MusicPlayerPage> {
                     icon: const Icon(FontAwesomeIcons.backward,
                         color: Colors.white),
                     onPressed: () {
+
                       // Logique pour revenir à la piste précédente
                     },
                   ),
@@ -161,7 +167,12 @@ class _MusicPlayerPageState extends State<MusicPlayerPage> {
                     icon: const Icon(FontAwesomeIcons.forward,
                         color: Colors.white),
                     onPressed: () {
-                      // Logique pour passer à la prochaine piste
+                      // Logique pour aller à la piste suivante 
+
+                      
+
+
+                     
                     },
                   ),
                 ],
