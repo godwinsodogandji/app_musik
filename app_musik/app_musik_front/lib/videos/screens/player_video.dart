@@ -50,7 +50,7 @@ class _PlayVideoPageState extends State<PlayVideoPage> {
         decoration: const BoxDecoration(
           image: DecorationImage(
             image: AssetImage(
-                '../../../assets/still-life-wireless-cyberpunk-headphones.jpg'),
+                '../../../assets/abstract-moon-start-lights.jpg'),
             fit:
                 BoxFit.cover, // Ajuste l'image pour qu'elle couvre tout l'écran
           ),

@@ -231,9 +231,12 @@ class _AlbumScreenState extends State<AlbumScreen> {
                               context,
                               MaterialPageRoute(
                                 builder: (context) => MusicPlayerPage(
+                                  // Passez la liste des musiques
                                   title: music.title,
                                   artist: music.artist,
                                   audioFile: music.file,
+                                  musics:
+                                      musics, // Passez l'index de la musique actuelle
                                 ),
                               ),
                             );
@@ -381,8 +384,8 @@ class _AlbumScreenState extends State<AlbumScreen> {
             ),
             TextButton(
               onPressed: () async {
-                 // Vérifiez si tous les champs sont remplis
-                 
+                // Vérifiez si tous les champs sont remplis
+
                 // Ajout de la musique
                 try {
                   await _addMusic(
@@ -396,20 +399,20 @@ class _AlbumScreenState extends State<AlbumScreen> {
                   );
                   Navigator.of(context).pop(); // Ferme le dialogue
                 } catch (e) {
-        // Affichage d'une alerte en cas d'erreur d'ajout
-        showDialog(
-          context: context,
-          builder: (BuildContext context) {
-            return AlertDialog(
-              backgroundColor: const Color(0xFF2A2A3E),
-              content: Text(
-                'Erreur : $e',
-                style: const TextStyle(color: Colors.white),
-              ),
-            );
-          },
-        );
-      }
+                  // Affichage d'une alerte en cas d'erreur d'ajout
+                  showDialog(
+                    context: context,
+                    builder: (BuildContext context) {
+                      return AlertDialog(
+                        backgroundColor: const Color(0xFF2A2A3E),
+                        content: Text(
+                          'Erreur : $e',
+                          style: const TextStyle(color: Colors.white),
+                        ),
+                      );
+                    },
+                  );
+                }
               },
               child: const Text(
                 'Ajouter',

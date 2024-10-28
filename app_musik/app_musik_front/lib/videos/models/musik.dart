@@ -25,7 +25,7 @@ class Music {
 
   factory Music.fromJson(Map<String, dynamic> json) {
     return Music(
-      id: json['id'] ?? 0,
+      id: json['id'],
       title: json['title'] ?? '',
       artist: json['artist'] ?? '',
       album: json['album'] ?? '',
